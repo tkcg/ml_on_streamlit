@@ -9,6 +9,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import plot_confusion_matrix, plot_roc_curve, plot_precision_recall_curve
 from sklearn.metrics import precision_score, recall_score 
 
+#st.set_option('deprecation.showPyplotGlobalUse', False)
+
 def main():
     st.title("Binary Classification Web App")
     st.sidebar.title("Binary Classification Web App")
@@ -60,8 +62,18 @@ def main():
         kernel = st.sidebar.radio("Kernel", ("rbf","linear"), key='Kernel')
         gamma = st.sidebar.radio("Gamma (Kernel Coefficient", ("scale","auto"), key='gamma')
 
+        metrics = st.sidebar.multiselect("What metrics to plot?", ('Confusion Matrix','ROC Curve','Precision-Recall Curve'))
 
-
+        if st.sidebar.button("Classify", key='classify'):
+            st.subheader("Support Vector Machine (SVM) Results")
+            model = SVC(C=C, kernel=kernel, gamma=gamma)
+            model.fit(x_train,y_train)
+            accuracy = model.score(x_test, y_test)
+            y_pred = model.predict(x_test)
+            st.write("Accuracy: ", accuracy.round(2))
+            st.write("Precision: ", precision_score(y_test,y_pred, labels=class_names).round(2))
+            st.write("Recall: ", recall_score(y_test,y_pred, labels=class_names).round(2))
+            plot_metrics(metrics)
 
 
 
