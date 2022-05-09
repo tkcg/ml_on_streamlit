@@ -15,6 +15,9 @@ def main():
     st.markdown("Are your mushrooms edible or poisonous?  🍄")
     st.sidebar.markdown("Are your mushrooms edible or poisonous?  🍄")
 
+    def load_data():
+        data = pd.read_csv('/')
+
 
 
 
